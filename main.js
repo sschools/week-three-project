@@ -1,5 +1,6 @@
-let buttonData = [
+const buttonData = [
   {"name": "clear", "label": "C"},
+  {"name": "display", "label": "0"},
   {"name": "power", "label": "xy"},
   {"name": "sqaure", "label": "x2"},
   {"name": "sqrt", "label": "sqrt"},
@@ -25,4 +26,25 @@ let buttonData = [
 console.log(buttonData.length);
 for (let i = 0; i < buttonData.length; i++) {
   console.log(buttonData[i].name + " " + buttonData[i].label);
+}
+
+let container = document.getElementById("calculator-body");
+
+for (let i = 0; i < buttonData.length; i++) {
+  let newDiv = document.createElement("div");
+  let newText = document.createElement("h2");
+  let content = document.createTextNode(buttonData[i].label);
+
+  newDiv.setAttribute("class", "button");
+  newDiv.setAttribute("id", buttonData[i].name);
+  if (i % 4 === 1) {
+    newDiv.classList.add("right-side");
+  }
+  if (i >= buttonData.length - 4) {
+    newDiv.classList.add("bottom-row");
+  }
+
+  newText.appendChild(content);
+  newDiv.appendChild(newText);
+  container.appendChild(newDiv);
 }
