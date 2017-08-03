@@ -79,7 +79,7 @@ function clickEvent() {
     displayNum = [];
     calcArray = [];
     if (operationChosen) {
-      operatorDiv.style.backgroundColor = "#c2c5fc"
+      operatorDiv.style.backgroundColor = "#c2c5fc";
       operationChosen = false;
       secondNum = false;
     }
