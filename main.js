@@ -30,12 +30,13 @@ let displayNum = [];
 let calcArray = [];
 let operationChosen = false;
 let secondNum = false;
+let eq = false;
 let index = 0;
 let operatorDiv;
 let answer = 0;
 
 equalsPressed = function(calc) {
-
+  eq = true;
   let x = calc[0];
   let y = calc[2];
   switch (calc[1]) {
@@ -78,12 +79,13 @@ function clickEvent() {
   if (divId === "clear") {
     displayNum = [];
     calcArray = [];
+    eq = false;
     if (operationChosen) {
       operatorDiv.style.backgroundColor = "#c2c5fc";
       operationChosen = false;
       secondNum = false;
     }
-  } else if (divClass.includes("operator") && !operationChosen && displayNum[0] > 0) {
+  } else if (divClass.includes("operator") && !operationChosen && displayNum[0] > 0 && !eq) {
     if (divId === "square") {
       displayNum[0] = Math.pow(displayNum[0], 2);
     } else if (divId === "sqrt") {
@@ -95,7 +97,7 @@ function clickEvent() {
       calcArray.push(displayNum[0]);
       calcArray.push(divClicked.id);
     }
-  } else if (divClass.includes("number")) {
+  } else if (divClass.includes("number") && !eq) {
     if (operationChosen && !secondNum) {
       operatorDiv.style.backgroundColor = "#c2c5fc";
       displayNum = [];
