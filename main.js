@@ -26,20 +26,27 @@ const buttonData = [
 ];
 
 let container = document.getElementById("calculator-body");
+let displayNum = [];
+let operationChosen = false;
 
 function clickEvent() {
   let divClicked;
+  let operatorDiv;
   if (event.target.getAttribute("class")) {
     divClicked = event.target;
   } else {
     divClicked = event.target.parentElement;
   }
   let divId = divClicked.id;
+  let divClass = divClicked.getAttribute("class");
   let num; //this will become the number that was clicked
-  let displayNum = [];
 
   if (divId === "clear") {
     displayNum = [];
+  } else if(divClass.includes("operator") && !operationChosen && displayNum[0] > 0) {
+    divClicked.style.backgroundColor = "#ffa3ef";
+    operationChosen = true;
+    operatorDiv = divClicked;
   } else {
     switch(divId) {
     case "nine":
@@ -73,7 +80,11 @@ function clickEvent() {
       num = 0;
       break;
   }
-    displayNum = [num];
+    if (displayNum[0] > 0) {
+      displayNum[0] = displayNum[0] * 10 + num;
+    } else {
+      displayNum[0] = num;
+    }
   }
 
   let dispArea = document.querySelector("#display h2");

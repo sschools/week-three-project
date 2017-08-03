@@ -29,10 +29,10 @@ body {
   flex-basis: 72%;
   text-align: right;
   padding-right: 10px;
+  padding-top: 30px;
 }
 
 #display h2 {
-  font-size: 5em;
   margin: auto;
 }
 
@@ -44,6 +44,7 @@ body {
   justify-content: space-between;
   flex-wrap: wrap;
   margin: 10px auto;
+  box-shadow: 10px 10px 5px #888888;
 }
 
 h2 {
@@ -54,4 +55,8 @@ h2 {
 
 .operator {
   background-color: #c2c5fc;
+}
+
+.operator h2 {
+  color: #232eff;
 }
