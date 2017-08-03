@@ -52,6 +52,6 @@ h2 {
   font-size: 2em;
 }
 
-#subtract, #add, #multiply, #divide {
+.operator {
   background-color: #c2c5fc;
 }
