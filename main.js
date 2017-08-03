@@ -21,15 +21,20 @@ const buttonData = [
   {"name": "subtract", "label": "-", "class": "operator"},
   {"name": "zero", "label": "0", "class": "number", "value": 0},
   {"name": "decimal", "label": "."},
-  {"name": "equals", "label": "=", "class": "operator"},
+  {"name": "equals", "label": "=", "class": "equals"},
   {"name": "add", "label": "+", "class": "operator"}
 ];
 
 let container = document.getElementById("calculator-body");
 let displayNum = [];
+let calcArray = [];
 let operationChosen = false;
+let index = 0;
 
 function clickEvent() {
+  if (operationChosen) {
+    index = 2;
+  }
   let divClicked;
   let operatorDiv;
   if (event.target.getAttribute("class")) {
@@ -39,56 +44,32 @@ function clickEvent() {
   }
   let divId = divClicked.id;
   let divClass = divClicked.getAttribute("class");
+  let divValue = divClicked.getAttribute("value");
   let num; //this will become the number that was clicked
 
   if (divId === "clear") {
     displayNum = [];
+    calcArray = [];
   } else if(divClass.includes("operator") && !operationChosen && displayNum[0] > 0) {
     divClicked.style.backgroundColor = "#ffa3ef";
     operationChosen = true;
     operatorDiv = divClicked;
+    calcArray.push(displayNum[0]);
+    calcArray.push(divClicked.id);
   } else {
-    switch(divId) {
-    case "nine":
-      num = 9;
-      break;
-    case "eight":
-      num = 8;
-      break;
-    case "seven":
-      num = 7;
-      break;
-    case "six":
-      num = 6;
-      break;
-    case "five":
-      num = 5;
-      break;
-    case "four":
-      num = 4;
-      break;
-    case "three":
-      num = 3;
-      break;
-    case "two":
-      num = 2;
-      break;
-    case "one":
-      num = 1;
-      break;
-    case "zero":
-      num = 0;
-      break;
-  }
+    num = parseInt(divValue);
+
     if (displayNum[0] > 0) {
       displayNum[0] = displayNum[0] * 10 + num;
     } else {
       displayNum[0] = num;
     }
+
   }
 
   let dispArea = document.querySelector("#display h2");
-  dispArea.innerText = displayNum;
+  dispArea.innerText = displayNum[0];
+  console.log(calcArray);
 }
 
 //loop to set up physical calulcator and assign appropriate classes

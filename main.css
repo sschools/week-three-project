@@ -60,3 +60,7 @@ h2 {
 .operator h2 {
   color: #232eff;
 }
+
+.equals {
+  background-color: #000000;
+}
