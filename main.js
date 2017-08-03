@@ -29,14 +29,37 @@ let container = document.getElementById("calculator-body");
 let displayNum = [];
 let calcArray = [];
 let operationChosen = false;
+let secondNum = false;
 let index = 0;
+let operatorDiv;
+let answer = 0;
+
+equalsPressed = function(calc) {
+
+  let x = calc[0];
+  let y = calc[2];
+  switch (calc[1]) {
+    case "add":
+      answer = x + y;
+      break;
+    case "subtract":
+      answer = x - y;
+      break;
+    case "multiply":
+      answer = x * y;
+      break;
+    case "divide":
+      answer = x / y;
+      break;
+  }
+}
 
 function clickEvent() {
   if (operationChosen) {
     index = 2;
   }
   let divClicked;
-  let operatorDiv;
+
   if (event.target.getAttribute("class")) {
     divClicked = event.target;
   } else {
@@ -50,13 +73,23 @@ function clickEvent() {
   if (divId === "clear") {
     displayNum = [];
     calcArray = [];
-  } else if(divClass.includes("operator") && !operationChosen && displayNum[0] > 0) {
+    if (operationChosen) {
+      operatorDiv.style.backgroundColor = "#c2c5fc"
+      operationChosen = false;
+      secondNum = false;
+    }
+  } else if (divClass.includes("operator") && !operationChosen && displayNum[0] > 0) {
     divClicked.style.backgroundColor = "#ffa3ef";
     operationChosen = true;
     operatorDiv = divClicked;
     calcArray.push(displayNum[0]);
     calcArray.push(divClicked.id);
-  } else {
+  } else if (divClass.includes("number")) {
+    if (operationChosen && !secondNum) {
+      operatorDiv.style.backgroundColor = "#c2c5fc";
+      displayNum = [];
+      secondNum = true;
+    }
     num = parseInt(divValue);
 
     if (displayNum[0] > 0) {
@@ -65,11 +98,15 @@ function clickEvent() {
       displayNum[0] = num;
     }
 
+  } else if (divId === "equals" && secondNum) {
+    calcArray.push(displayNum[0]);
+    console.log(calcArray);
+    equalsPressed(calcArray);
+    displayNum[0] = answer;
   }
 
   let dispArea = document.querySelector("#display h2");
-  dispArea.innerText = displayNum[0];
-  console.log(calcArray);
+  dispArea.innerText = displayNum;
 }
 
 //loop to set up physical calulcator and assign appropriate classes
