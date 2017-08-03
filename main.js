@@ -36,8 +36,12 @@ function clickEvent() {
   }
   let divId = divClicked.id;
   let num; //this will become the number that was clicked
+  let displayNum = [];
 
-  switch(divId) {
+  if (divId === "clear") {
+    displayNum = [];
+  } else {
+    switch(divId) {
     case "nine":
       num = 9;
       break;
@@ -69,14 +73,11 @@ function clickEvent() {
       num = 0;
       break;
   }
-
-  let displayNum;
-  displayNum = num;
+    displayNum = [num];
+  }
 
   let dispArea = document.querySelector("#display h2");
-  let displayContent = document.createTextNode(displayNum);
-
-  dispArea.appendChild(displayContent);
+  dispArea.innerText = displayNum;
 }
 
 //loop to set up physical calulcator and assign appropriate classes
