@@ -53,14 +53,14 @@ h2 {
   font-size: 2em;
 }
 
-.operator {
+.operator, .equals {
   background-color: #c2c5fc;
 }
 
-.operator h2 {
+.operator h2, .equals h2 {
   color: #232eff;
 }
 
-.equals {
+#equals:hover, #clear:hover {
   background-color: #000000;
 }

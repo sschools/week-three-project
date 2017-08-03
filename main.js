@@ -4,7 +4,7 @@ const buttonData = [
   {"name": "clear", "label": "C", "class": "operator"},
   {"name": "display", "label": ""},
   {"name": "power", "label": "xy", "class": "operator"},
-  {"name": "sqaure", "label": "x2", "class": "operator"},
+  {"name": "square", "label": "x2", "class": "operator"},
   {"name": "sqrt", "label": "sqrt", "class": "operator"},
   {"name": "mod", "label": "mod", "class": "operator"},
   {"name": "seven", "label": "7", "class": "number", "value": 7},
@@ -51,6 +51,11 @@ equalsPressed = function(calc) {
     case "divide":
       answer = x / y;
       break;
+    case "mod":
+      answer = x % y;
+      break;
+    case "power":
+      answer = Math.pow(x, y);
   }
 }
 
@@ -79,11 +84,17 @@ function clickEvent() {
       secondNum = false;
     }
   } else if (divClass.includes("operator") && !operationChosen && displayNum[0] > 0) {
-    divClicked.style.backgroundColor = "#ffa3ef";
-    operationChosen = true;
-    operatorDiv = divClicked;
-    calcArray.push(displayNum[0]);
-    calcArray.push(divClicked.id);
+    if (divId === "square") {
+      displayNum[0] = Math.pow(displayNum[0], 2);
+    } else if (divId === "sqrt") {
+      displayNum[0] = Math.sqrt(displayNum[0]);
+    } else {
+      divClicked.style.backgroundColor = "#ffa3ef";
+      operationChosen = true;
+      operatorDiv = divClicked;
+      calcArray.push(displayNum[0]);
+      calcArray.push(divClicked.id);
+    }
   } else if (divClass.includes("number")) {
     if (operationChosen && !secondNum) {
       operatorDiv.style.backgroundColor = "#c2c5fc";
