@@ -35,11 +35,12 @@ let eq = false;
 let index = 0;
 let operatorDiv;
 let answer = 0;
+let current;
 
 equalsPressed = function(calc) {
   eq = true;
-  let x = calc[0];
-  let y = calc[2];
+  let x = parseFloat(calc[0]);
+  let y = parseFloat(calc[2]);
   switch (calc[1]) {
     case "+":
       answer = x + y;
@@ -63,7 +64,7 @@ equalsPressed = function(calc) {
 
 decimalPressed = function(calc) {
   dec = true;
-  let current = calc.length - 1;
+  current = calc.length - 1;
   let currentNum = calc[current];
   currentNum = currentNum.toString();
   currentNum += ".";
@@ -92,12 +93,14 @@ function clickEvent() {
     displayNum = [];
     calcStack = [];
     eq = false;
+    dec = false;
     if (operationChosen) {
       operatorDiv.style.backgroundColor = "#c2c5fc";
       operationChosen = false;
       secondNum = false;
     }
   } else if (divClass.includes("operator") && !operationChosen && displayNum[0] > 0 && !eq) {
+    dec = false;
     if (divId === "square") {
       displayNum[0] = Math.pow(displayNum[0], 2);
     } else if (divId === "sqrt") {
@@ -114,11 +117,14 @@ function clickEvent() {
       secondNum = true;
     }
     num = parseInt(divValue);
-
-    if (displayNum[0] > 0) {
-      displayNum[0] = displayNum[0] * 10 + num;
+    if (!dec) {
+      if (displayNum[0] > 0) {
+        displayNum[0] = displayNum[0] * 10 + num;
+      } else {
+        displayNum[0] = num;
+      }
     } else {
-      displayNum[0] = num;
+      calcStack[current] += divValue;
     }
 
   } else if (divId === "equals" && secondNum) {
@@ -133,7 +139,7 @@ function clickEvent() {
   let dispArea = document.querySelector("#display h2");
 
   if (!dec) {
-    if (!operationChosen) {
+    if (!operationChosen && divId !== "clear") {
       calcStack[0] = displayNum[0];
     } else if (!secondNum && divId !== "clear") {
       calcStack.push(divLabel);
