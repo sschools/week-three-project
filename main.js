@@ -125,9 +125,22 @@ function clickEvent() {
 
 //loop to set up physical calulcator and assign appropriate classes
 for (let i = 0; i < buttonData.length; i++) {
+  let content;
   let newDiv = document.createElement("div");
-  let newText = document.createElement("h2");
-  let content = document.createTextNode(buttonData[i].label);
+
+  if (buttonData[i].label === "xy") {
+    content = `
+    <h2>x<sup>y</sup></h2>
+    `
+  } else if (buttonData[i].label === "x2"){
+    content = `
+    <h2>x<sup>2</sup></h2>
+    `
+  } else {
+    content = `
+    <h2>${buttonData[i].label}</h2>
+    `
+  }
 
   newDiv.setAttribute("class", "button");
   newDiv.setAttribute("id", buttonData[i].name);
@@ -148,8 +161,6 @@ for (let i = 0; i < buttonData.length; i++) {
   }
 
   newDiv.addEventListener("click", clickEvent);
-
-  newText.appendChild(content);
-  newDiv.appendChild(newText);
+  newDiv.innerHTML = content;
   container.appendChild(newDiv);
 }
