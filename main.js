@@ -40,22 +40,22 @@ equalsPressed = function(calc) {
   let x = calc[0];
   let y = calc[2];
   switch (calc[1]) {
-    case "add":
+    case "+":
       answer = x + y;
       break;
-    case "subtract":
+    case "-":
       answer = x - y;
       break;
-    case "multiply":
+    case "x":
       answer = x * y;
       break;
-    case "divide":
+    case "/":
       answer = x / y;
       break;
     case "mod":
       answer = x % y;
       break;
-    case "power":
+    case "xy":
       answer = Math.pow(x, y);
   }
 }
@@ -74,6 +74,7 @@ function clickEvent() {
   let divId = divClicked.id;
   let divClass = divClicked.getAttribute("class");
   let divValue = divClicked.getAttribute("value");
+  let divLabel = divClicked.querySelector("h2").textContent;
   let num; //this will become the number that was clicked
 
   if (divId === "clear") {
@@ -95,7 +96,7 @@ function clickEvent() {
       operationChosen = true;
       operatorDiv = divClicked;
       calcArray.push(displayNum[0]);
-      calcArray.push(divClicked.id);
+      calcArray.push(divLabel);
     }
   } else if (divClass.includes("number") && !eq) {
     if (operationChosen && !secondNum) {
