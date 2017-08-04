@@ -28,10 +28,9 @@ const buttonData = [
 let container = document.getElementById("calculator-body");
 let displayNum = [];
 let calcStack = [];
-let operationChosen = false;
-let secondNum = false;
 let dec = false;
 let eq = false;
+let opChoice = 0;
 let operatorDiv;
 let answer = 0;
 let current;
@@ -92,27 +91,27 @@ function clickEvent() {
     calcStack = [];
     eq = false;
     dec = false;
-    if (operationChosen) {
+    opChoice = 0;
+    if (calcStack.length % 2 === 0) {
       operatorDiv.style.backgroundColor = "#c2c5fc";
-      operationChosen = false;
-      secondNum = false;
     }
-  } else if (divClass.includes("operator") && !operationChosen && calcStack.length > 0 && !eq) {
+  } else if (divClass.includes("operator") && calcStack.length % 2 === 1 && calcStack.length > 0 && !eq) {
     dec = false;
+    opChoice += 1;
     if (divId === "square") {
       displayNum[0] = Math.pow(displayNum[0], 2);
     } else if (divId === "sqrt") {
       displayNum[0] = Math.sqrt(displayNum[0]).toFixed(10);
     } else {
       divClicked.style.backgroundColor = "#ffa3ef";
-      operationChosen = true;
       operatorDiv = divClicked;
     }
   } else if (divClass.includes("number") && !eq) {
-    if (operationChosen && !secondNum) {
-      operatorDiv.style.backgroundColor = "#c2c5fc";
-      displayNum = [];
-      secondNum = true;
+    if (calcStack.length % 2 === 0) {
+      if (calcStack.length > 0) {
+        operatorDiv.style.backgroundColor = "#c2c5fc";
+      }
+      //displayNum = [];
     }
     num = parseInt(divValue);
     if (!dec) {
@@ -125,7 +124,7 @@ function clickEvent() {
       calcStack[current] += divValue;
     }
 
-  } else if (divId === "equals" && secondNum) {
+  } else if (divId === "equals" && calcStack.length % 2 === 1 && calcStack.length > 1) {
     equalsPressed(calcStack);
     calcStack = [];
     answer = answer.toFixed(10);
@@ -146,12 +145,14 @@ function clickEvent() {
   let dispArea = document.querySelector("#display h2");
 
   if (!dec) {
-    if (!operationChosen && divId !== "clear") {
-      calcStack[0] = displayNum[0];
-    } else if (!secondNum && divId !== "clear") {
+    if (opChoice % 2 === 0 && !eq && divId !== "clear") {
+      if (calcStack.length === 0) {
+        calcStack[0] = displayNum[0];
+      } else {
+        calcStack[calcStack.length -1] = displayNum[0];
+      }
+    } else if (calcStack.length % 2 === 1 && divId !== "clear") {
       calcStack.push(divLabel);
-    } else if (secondNum && !eq) {
-      calcStack[2] = displayNum[0];
     }
   }
   console.log(calcStack);
