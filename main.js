@@ -107,11 +107,14 @@ function clickEvent() {
       operatorDiv = divClicked;
     }
   } else if (divClass.includes("number") && !eq) {
+    if (opChoice % 2 === 1) {
+      opChoice += 1;
+    }
     if (calcStack.length % 2 === 0) {
       if (calcStack.length > 0) {
         operatorDiv.style.backgroundColor = "#c2c5fc";
       }
-      //displayNum = [];
+      displayNum = [];
     }
     num = parseInt(divValue);
     if (!dec) {
@@ -146,12 +149,12 @@ function clickEvent() {
 
   if (!dec) {
     if (opChoice % 2 === 0 && !eq && divId !== "clear") {
-      if (calcStack.length === 0) {
-        calcStack[0] = displayNum[0];
+      if (calcStack.length % 2 === 0) {
+        calcStack.push(displayNum[0]);
       } else {
         calcStack[calcStack.length -1] = displayNum[0];
       }
-    } else if (calcStack.length % 2 === 1 && divId !== "clear") {
+    } else if (calcStack.length % 2 === 1 && divId !== "clear" && divId !== "equals") {
       calcStack.push(divLabel);
     }
   }
