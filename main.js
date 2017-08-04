@@ -27,10 +27,10 @@ const buttonData = [
 
 let container = document.getElementById("calculator-body");
 let displayNum = [];
-let calcArray = [];
 let calcStack = [];
 let operationChosen = false;
 let secondNum = false;
+let dec = false;
 let eq = false;
 let index = 0;
 let operatorDiv;
@@ -61,6 +61,16 @@ equalsPressed = function(calc) {
   }
 }
 
+decimalPressed = function(calc) {
+  dec = true;
+  let current = calc.length - 1;
+  let currentNum = calc[current];
+  currentNum = currentNum.toString();
+  currentNum += ".";
+  calcStack[current] = currentNum;
+  console.log(calcStack);
+}
+
 function clickEvent() {
   if (operationChosen) {
     index = 2;
@@ -80,7 +90,6 @@ function clickEvent() {
 
   if (divId === "clear") {
     displayNum = [];
-    calcArray = [];
     calcStack = [];
     eq = false;
     if (operationChosen) {
@@ -97,8 +106,6 @@ function clickEvent() {
       divClicked.style.backgroundColor = "#ffa3ef";
       operationChosen = true;
       operatorDiv = divClicked;
-      calcArray.push(displayNum[0]);
-      calcArray.push(divLabel);
     }
   } else if (divClass.includes("number") && !eq) {
     if (operationChosen && !secondNum) {
@@ -115,20 +122,24 @@ function clickEvent() {
     }
 
   } else if (divId === "equals" && secondNum) {
-    calcArray.push(displayNum[0]);
-    equalsPressed(calcArray);
+    equalsPressed(calcStack);
     calcStack = [];
     calcStack[0] = answer;
+  } else if (divId === "decimal" && !dec) {
+    console.log("decimal pressed");
+    decimalPressed(calcStack);
   }
 
   let dispArea = document.querySelector("#display h2");
 
-  if (!operationChosen) {
-    calcStack[0] = displayNum[0];
-  } else if (!secondNum && divId !== "clear") {
-    calcStack.push(divLabel);
-  } else if (secondNum && !eq) {
-    calcStack[2] = displayNum[0];
+  if (!dec) {
+    if (!operationChosen) {
+      calcStack[0] = displayNum[0];
+    } else if (!secondNum && divId !== "clear") {
+      calcStack.push(divLabel);
+    } else if (secondNum && !eq) {
+      calcStack[2] = displayNum[0];
+    }
   }
   console.log(calcStack);
   dispString = calcStack.toString().replace(/,/g, " ");
