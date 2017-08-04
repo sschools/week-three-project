@@ -32,7 +32,6 @@ let operationChosen = false;
 let secondNum = false;
 let dec = false;
 let eq = false;
-let index = 0;
 let operatorDiv;
 let answer = 0;
 let current;
@@ -41,7 +40,6 @@ equalsPressed = function(calc) {
   eq = true;
   let x = Number(calc[0]);
   let y = Number(calc[2]);
-  console.log(x + " " + y);
   switch (calc[1]) {
     case "+":
       answer = x + y;
@@ -65,18 +63,17 @@ equalsPressed = function(calc) {
 
 decimalPressed = function(calc) {
   dec = true;
+  if (calc.length % 2 === 0) {
+    calc.push(0); //this puts zero on screen id decimal is pressed prior to a number
+  }
   current = calc.length - 1;
   let currentNum = calc[current];
   currentNum = currentNum.toString();
   currentNum += ".";
   calcStack[current] = currentNum;
-  console.log(calcStack);
 }
 
 function clickEvent() {
-  if (operationChosen) {
-    index = 2;
-  }
   let divClicked;
 
   if (event.target.getAttribute("class")) {
@@ -100,12 +97,12 @@ function clickEvent() {
       operationChosen = false;
       secondNum = false;
     }
-  } else if (divClass.includes("operator") && !operationChosen && displayNum[0] > 0 && !eq) {
+  } else if (divClass.includes("operator") && !operationChosen && calcStack.length > 0 && !eq) {
     dec = false;
     if (divId === "square") {
       displayNum[0] = Math.pow(displayNum[0], 2);
     } else if (divId === "sqrt") {
-      displayNum[0] = Math.sqrt(displayNum[0]);
+      displayNum[0] = Math.sqrt(displayNum[0]).toFixed(10);
     } else {
       divClicked.style.backgroundColor = "#ffa3ef";
       operationChosen = true;
