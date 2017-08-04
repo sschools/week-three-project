@@ -97,12 +97,12 @@ function clickEvent() {
     }
   } else if (divClass.includes("operator") && calcStack.length % 2 === 1 && calcStack.length > 0 && !eq) {
     dec = false;
-    opChoice += 1;
     if (divId === "square") {
       displayNum[0] = Math.pow(displayNum[0], 2);
     } else if (divId === "sqrt") {
       displayNum[0] = Math.sqrt(displayNum[0]).toFixed(10);
     } else {
+      opChoice += 1;
       divClicked.style.backgroundColor = "#ffa3ef";
       operatorDiv = divClicked;
     }
