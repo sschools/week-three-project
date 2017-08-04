@@ -39,8 +39,9 @@ let current;
 
 equalsPressed = function(calc) {
   eq = true;
-  let x = parseFloat(calc[0]);
-  let y = parseFloat(calc[2]);
+  let x = Number(calc[0]);
+  let y = Number(calc[2]);
+  console.log(x + " " + y);
   switch (calc[1]) {
     case "+":
       answer = x + y;
@@ -130,6 +131,15 @@ function clickEvent() {
   } else if (divId === "equals" && secondNum) {
     equalsPressed(calcStack);
     calcStack = [];
+    answer = answer.toFixed(10);
+    if (answer.includes(".")) { //removes remaining zeros after toFixed operation
+      while (answer.endsWith("0")) {
+        answer = answer.slice(0,answer.length-1);
+      }
+    }
+    if (answer.endsWith(".")) {
+      answer = answer.slice(0,answer.length-1);
+    }
     calcStack[0] = answer;
   } else if (divId === "decimal" && !dec) {
     console.log("decimal pressed");
