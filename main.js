@@ -61,37 +61,34 @@ getAnswer = function(arr3) {
   return tempAnswer;
 }
 
+shrinkArray = function(calc, index) {
+  let temp = [];
+  temp = calc.slice(index - 1, index + 2);
+  result = getAnswer(temp);
+  calc[index] = result;
+  calc.splice(index - 1, 1);
+  calc.splice(index, 1);
+  return calc;
+}
+
 equalsPressed = function(calc) {
   eq = true;
   let index = 0;
-  let temp = [];
   let result = 0;
   while (calc.length > 3) {
     if (calc.includes("xy")) {
       index = calc.indexOf("xy");
-      temp = calc.slice(index - 1, index + 2);
-      result = getAnswer(temp);
-      calc[index] = result;
-      calc.splice(index - 1, 1);
-      calc.splice(index, 1);
+      calc = shrinkArray(calc, index);
     } else if (calc.includes("x") || calc.includes("/") || calc.includes("mod")) {
       for (let i = calc.length -1; i > 0; i--) {
         if (calc[i] === "x" || calc[i] === "/" || calc[i] === "mod") {
           index = i;
         }
       }
-      temp = calc.slice(index - 1, index + 2);
-      result = getAnswer(temp);
-      calc[index] = result;
-      calc.splice(index - 1, 1);
-      calc.splice(index, 1);
+      calc = shrinkArray(calc, index);
     } else {
       index = 1;
-      temp = calc.slice(index - 1, index + 2);
-      result = getAnswer(temp);
-      calc[index] = result;
-      calc.splice(index - 1, 1);
-      calc.splice(index, 1);
+      calc = shrinkArray(calc, index);
     }
   }
   answer = getAnswer(calc);
