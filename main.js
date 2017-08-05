@@ -35,29 +35,66 @@ let operatorDiv;
 let answer = 0;
 let current;
 
-equalsPressed = function(calc) {
-  eq = true;
-  let x = Number(calc[0]);
-  let y = Number(calc[2]);
-  switch (calc[1]) {
+getAnswer = function(arr3) {
+  let x = Number(arr3[0]);
+  let y = Number(arr3[2]);
+  let tempAnswer = 0;
+  switch (arr3[1]) {
     case "+":
-      answer = x + y;
+      tempAnswer = x + y;
       break;
     case "-":
-      answer = x - y;
+      tempAnswer = x - y;
       break;
     case "x":
-      answer = x * y;
+      tempAnswer = x * y;
       break;
     case "/":
-      answer = x / y;
+      tempAnswer = x / y;
       break;
     case "mod":
-      answer = x % y;
+      tempAnswer = x % y;
       break;
     case "xy":
-      answer = Math.pow(x, y);
+      tempAnswer = Math.pow(x, y);
   }
+  return tempAnswer;
+}
+
+equalsPressed = function(calc) {
+  eq = true;
+  let index = 0;
+  let temp = [];
+  let result = 0;
+  while (calc.length > 3) {
+    if (calc.includes("xy")) {
+      index = calc.indexOf("xy");
+      temp = calc.slice(index - 1, index + 2);
+      result = getAnswer(temp);
+      calc[index] = result;
+      calc.splice(index - 1, 1);
+      calc.splice(index, 1);
+    } else if (calc.includes("x") || calc.includes("/") || calc.includes("mod")) {
+      for (let i = calc.length -1; i > 0; i--) {
+        if (calc[i] === "x" || calc[i] === "/" || calc[i] === "mod") {
+          index = i;
+        }
+      }
+      temp = calc.slice(index - 1, index + 2);
+      result = getAnswer(temp);
+      calc[index] = result;
+      calc.splice(index - 1, 1);
+      calc.splice(index, 1);
+    } else {
+      index = 1;
+      temp = calc.slice(index - 1, index + 2);
+      result = getAnswer(temp);
+      calc[index] = result;
+      calc.splice(index - 1, 1);
+      calc.splice(index, 1);
+    }
+  }
+  answer = getAnswer(calc);
 }
 
 decimalPressed = function(calc) {
