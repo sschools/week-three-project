@@ -135,6 +135,10 @@ function clickEvent() {
       displayNum[0] = Math.pow(displayNum[0], 2);
     } else if (divId === "sqrt") {
       displayNum[0] = Math.sqrt(displayNum[0]).toFixed(10);
+      if (displayNum[0].endsWith("00000")) {
+        console.log(displayNum[0]);
+        displayNum[0] = displayNum[0].slice(0, displayNum[0].length - 11);
+      }
     } else {
       opChoice += 1;
       divClicked.style.backgroundColor = "#ffa3ef";
